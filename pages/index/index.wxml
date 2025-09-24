@@ -1,7 +1,7 @@
 <view class="page">
   <!-- Header Title -->
   <view class="header safe-area-top">
-    <image class="header-bg" src="/assets/warm-header.jpg" mode="aspectFill"></image>
+    <image class="header-bg" src="../images/warm-header.jpg" mode="aspectFill"></image>
     <text class="title cute-font">胡闹厨房</text>
   </view>
 

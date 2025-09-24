@@ -1,0 +1,49 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <!-- 定义渐变效果 -->
+    <defs>
+        <!-- 金色按钮渐变 -->
+        <radialGradient id="goldGradient" cx="40%" cy="30%">
+            <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+            <stop offset="50%" style="stop-color:#FF9800;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#E65100;stop-opacity:1" />
+        </radialGradient>
+
+        <!-- 内圈渐变 -->
+        <radialGradient id="innerGradient" cx="30%" cy="30%">
+            <stop offset="0%" style="stop-color:#FFF3C4;stop-opacity:1" />
+            <stop offset="70%" style="stop-color:#FFB74D;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#FF8F00;stop-opacity:1" />
+        </radialGradient>
+    </defs>
+
+    <!-- 外圈金边，增大10% -->
+    <circle cx="100" cy="100" r="38.5"
+            fill="url(#goldGradient)"
+            stroke="#D84315"
+            stroke-width="3"/>
+
+    <!-- 中间圈，增大10% -->
+    <circle cx="100" cy="100" r="30.8"
+            fill="url(#innerGradient)"
+            stroke="#E65100"
+            stroke-width="1"/>
+
+    <!-- 内圈，增大10% -->
+    <circle cx="100" cy="100" r="24.2"
+            fill="#FFB74D"
+            stroke="none"/>
+
+    <!-- 指针：箭头缩短15%，底部粗，顶部细的三角形 -->
+    <path d="M85 65 L100 22.5 L115 65 Z"
+          fill="url(#goldGradient)"
+          stroke="none"/>
+
+    <!-- GO文字 -->
+    <text x="100" y="108"
+          font-family="Arial, sans-serif"
+          font-size="18"
+          font-weight="bold"
+          fill="white"
+          text-anchor="middle"
+          style="text-shadow: 1px 1px 2px rgba(0,0,0,0.7);">go</text>
+</svg>

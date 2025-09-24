@@ -26,8 +26,8 @@ Page({
       const canvas = res[0] && res[0].node;
       if (!canvas) return;
       const dpr = wx.getSystemInfoSync().pixelRatio || 1;
-      const width = 520; // rpx approximated; miniprogram 2d canvas uses px, assume 1 rpx ~= 1 px for simplicity
-      const height = 520;
+      const width = 600; // rpx approximated; miniprogram 2d canvas uses px, assume 1 rpx ~= 1 px for simplicity
+      const height = 600;
       canvas.width = width * dpr;
       canvas.height = height * dpr;
       canvas.style = canvas.style || {};
@@ -44,9 +44,9 @@ Page({
   drawWheel() {
     const ctx = this.ctx;
     if (!ctx) return;
-    const width = 520;
-    const height = 520;
-    const radius = 260;
+    const width = 600;
+    const height = 600;
+    const radius = 300;
     ctx.clearRect(0, 0, width, height);
     ctx.save();
     ctx.translate(width / 2, height / 2);
@@ -104,59 +104,35 @@ Page({
     this.setData({ wheelItems, wheelCount }, () => this.drawWheel());
   },
 
-    onGo() {
-        if (this.data.wheelItems.length === 0 || this.data.spinning) return;
-        this.setData({ spinning: true });
-        const extraTurns = 4 + Math.floor(Math.random() * 2); // 4-5 turns for snappier feel
-        const targetIndex = Math.floor(Math.random() * this.data.wheelItems.length);
-        const anglePer = 360 / this.data.wheelItems.length;
-        // Pointer calibration
-        let targetAngle = (360 - targetIndex * anglePer) - anglePer / 2 - 90;
-        targetAngle = (targetAngle % 360 + 360) % 360;
+  onGo() {
+    if (this.data.wheelItems.length === 0 || this.data.spinning) return;
+    this.setData({ spinning: true });
+    const extraTurns = 4 + Math.floor(Math.random() * 3); // 4-6 turns
+    const targetIndex = Math.floor(Math.random() * this.data.wheelItems.length);
+    const anglePer = 360 / this.data.wheelItems.length;
+    const targetAngle = extraTurns * 360 + (360 - targetIndex * anglePer) - anglePer / 2; // align pointer to segment center
 
-        const duration = 1500 + Math.floor(Math.random() * 1500);  // 1.5 ~ 3s
-        const start = Date.now();
-        this.currentAngle = this.data.angle % 360; // Sync local angle
-        const startAngle = this.currentAngle;
-
-        // Calculate full target with always positive delta for clockwise rotation
-        let delta = (targetAngle - startAngle + 360) % 360;
-        const fullTargetAngle = startAngle + extraTurns * 360 + delta;
-
-        console.log('starting animation', { startAngle, targetAngle, delta, fullTargetAngle });
-
-        const animate = () => {
-            const now = Date.now();
-            const t = Math.min(1, (now - start) / duration);
-            // easeOutCubic easing
-            const eased = 1 - Math.pow(1 - t, 3);
-            this.currentAngle = startAngle + eased * (fullTargetAngle - startAngle);
-            this.drawWheel();
-
-            console.log('animate frame', t.toFixed(2), this.currentAngle % 360);
-
-            if (t < 1) {
-                // Use setTimeout for reliability in MiniProgram
-                this.animId = setTimeout(animate, 16);
-            } else {
-                // Stop: Final precise position
-                this.currentAngle = fullTargetAngle;
-                this.drawWheel();
-                if (this.animId) {
-                    clearTimeout(this.animId);
-                }
-                const finalIndex = targetIndex;
-                const result = this.data.wheelItems[finalIndex];
-                wx.showToast({ title: `结果：${result}`, icon: 'none' });
-                // Only setData at end with normalized angle
-                this.setData({ angle: this.currentAngle % 360, spinning: false });
-                console.log('animation end', this.currentAngle % 360);
-            }
-        };
-
-        // Start with setTimeout
-        this.animId = setTimeout(animate, 16);
-    },
+    const duration = 3000;
+    const start = Date.now();
+    const startAngle = this.data.angle % 360;
+    const animate = () => {
+      const now = Date.now();
+      const t = Math.min(1, (now - start) / duration);
+      // easeOutCubic
+      const eased = 1 - Math.pow(1 - t, 3);
+      const angle = startAngle + eased * (targetAngle - startAngle);
+      this.setData({ angle }, () => this.drawWheel());
+      if (t < 1) {
+        this.animId = this.canvas.requestAnimationFrame(animate);
+      } else {
+        this.setData({ spinning: false });
+        const finalIndex = targetIndex;
+        const result = this.data.wheelItems[finalIndex];
+        wx.showToast({ title: `结果：${result}`, icon: 'none' });
+      }
+    };
+    this.animId = this.canvas.requestAnimationFrame(animate);
+  },
 
   onOpenWheelDrawer() {
     this.setData({ showWheelDrawer: true });
