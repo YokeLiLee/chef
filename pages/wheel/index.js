@@ -1,13 +1,15 @@
 Page({
   data: {
     categories: [
-      { name: '热菜' },
-      { name: '凉菜' },
-      { name: '主食' },
-      { name: '甜品' },
-      { name: '饮品' },
-      { name: '小吃' },
-      { name: '汤羹' }
+        { name: '热菜', emoji: '🔥' },
+        { name: '凉菜', emoji: '🥗' },
+        { name: '主食', emoji: '🍚' },
+        { name: '甜品', emoji: '🍰' },
+        { name: '饮品', emoji: '🥤' },
+        { name: '火锅', emoji: '🍲' },
+        { name: '串串香', emoji: '🍡' },
+        { name: '汉堡包', emoji: '🍔' },
+        { name: '拉面', emoji: '🍜' }
     ],
     wheelItems: [],
     spinning: false,
@@ -57,7 +59,15 @@ Page({
     if (count === 0) {
       // empty placeholder ring
       ctx.beginPath();
-      ctx.fillStyle = '#f5f5f5';
+      const gradient = ctx.createLinearGradient(
+          -radius * Math.cos(135 * Math.PI / 180), // start x
+          -radius * Math.sin(135 * Math.PI / 180), // start y
+          radius * Math.cos(135 * Math.PI / 180),  // end x
+          radius * Math.sin(135 * Math.PI / 180)   // end y
+      );
+      gradient.addColorStop(0, '#ffe6d9'); // Start color
+      gradient.addColorStop(1, '#fff3e0'); // End color
+      ctx.fillStyle = gradient;
       ctx.arc(0, 0, radius, 0, Math.PI * 2);
       ctx.fill();
       ctx.restore();

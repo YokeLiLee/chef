@@ -6,11 +6,19 @@
   </view>
 
   <view class="wheel-content">
-      <!-- Categories above wheel, wrap if overflow -->
-      <view class="categories">
-          <block wx:for="{{categories}}" wx:key="name">
-              <button class="cat-btn" size="mini" data-name="{{item.name}}" bindtap="onAddToWheel">{{item.name}}</button>
-          </block>
+      <!-- Categories in a single section -->
+      <view class="section">
+          <view class="section-header">
+              <text class="section-title">选择菜品类别</text>
+          </view>
+          <view class="dishes">
+              <block wx:for="{{categories}}" wx:key="name">
+                  <view class="cat-card" data-name="{{item.name}}" bindtap="onAddToWheel">
+                      <view class="cat-thumb">{{item.emoji}}</view>
+                      <text class="cat-name">{{item.name}}</text>
+                  </view>
+              </block>
+          </view>
       </view>
 
       <!-- Wheel center -->

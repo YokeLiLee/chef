@@ -1,7 +1,34 @@
 .page { display: flex; flex-direction: column; height: 100vh; }
 .wheel-content { display: flex; flex-direction: column; flex: 1; min-height: 0; }
 .categories { display: flex; flex-wrap: wrap; gap: 16rpx; padding: 16rpx; justify-content: center; max-width: 100%; } /* 允许按钮换行 */
-.cat-btn { margin-bottom: 16rpx; border-radius: 999rpx; background: #fff; box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.06); }
+.section { padding: 16rpx; }
+.section-header { padding: 8rpx 0; }
+.section-title { font-size: 28rpx; color: #999; text-align: center}
+.dishes {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16rpx;
+    padding: 8rpx 0;
+}
+.cat-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8rpx;
+    padding: 12rpx;
+    border-radius: 16rpx;
+    background: #f9fafb;
+    width: 100rpx; /* Smaller than dish-card (160rpx) */
+    box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.06);
+}
+.cat-thumb { font-size: 40rpx; } /* Smaller than dish-thumb (60rpx) */
+.cat-name {
+    font-size: 20rpx;
+    font-weight: 600;
+    text-align: center;
+}
 .wheel-center {
     position: relative;
     flex: 1;
