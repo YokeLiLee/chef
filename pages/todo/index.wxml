@@ -1,0 +1,109 @@
+<view class="page">
+  <!-- Header same as Home -->
+  <view class="header safe-area-top">
+    <image class="header-bg" src="/assets/warm-header.jpg" mode="aspectFill"></image>
+    <text class="title cute-font">胡闹厨房</text>
+  </view>
+
+  <view class="todo-content">
+    <view class="grid">
+      <!-- 想吃 -->
+      <view class="square">
+        <view class="square-inner">
+          <view class="mini-title">想吃</view>
+          <view class="items" >
+            <block wx:for="{{eatList}}" wx:key="id">
+              <view class="item">
+                <checkbox checked="{{item.done}}" data-type="eat" data-id="{{item.id}}" bindchange="onToggleDone"/>
+                <text class="item-text {{item.done ? 'done' : ''}}">{{item.text}}</text>
+                <text class="item-remove" data-type="eat" data-id="{{item.id}}" bindtap="onRemoveItem">×</text>
+              </view>
+            </block>
+          </view>
+          <view class="square-footer">
+<!--            <button size="mini" class="pill-btn" data-type="eat" bindtap="onTapAdd">添加</button>-->
+            <image class="pill-btn-image" src="../images/add-textV2.svg" data-type="eat" bindtap="onTapAdd" ></image>
+          </view>
+        </view>
+      </view>
+
+      <!-- 想做 -->
+      <view class="square">
+        <view class="square-inner">
+          <view class="mini-title">想做</view>
+          <view class="items" >
+            <block wx:for="{{cookList}}" wx:key="id">
+              <view class="item">
+                <checkbox checked="{{item.done}}" data-type="cook" data-id="{{item.id}}" bindchange="onToggleDone"/>
+                <text class="item-text {{item.done ? 'done' : ''}}">{{item.text}}</text>
+                <text class="item-remove" data-type="cook" data-id="{{item.id}}" bindtap="onRemoveItem">×</text>
+              </view>
+            </block>
+          </view>
+          <view class="square-footer">
+<!--            <button size="mini" class="pill-btn" data-type="cook" bindtap="onTapAdd">添加</button>-->
+              <image class="pill-btn-image" src="../images/add-textV2.svg" data-type="cook" bindtap="onTapAdd" ></image>
+          </view>
+        </view>
+      </view>
+
+      <!-- 想去 -->
+      <view class="square">
+        <view class="square-inner">
+          <view class="mini-title">想去</view>
+          <view class="items" >
+            <block wx:for="{{goList}}" wx:key="id">
+              <view class="item">
+                <checkbox checked="{{item.done}}" data-type="go" data-id="{{item.id}}" bindchange="onToggleDone"/>
+                <text class="item-text {{item.done ? 'done' : ''}}">{{item.text}}</text>
+                <text class="item-remove" data-type="go" data-id="{{item.id}}" bindtap="onRemoveItem">×</text>
+              </view>
+            </block>
+          </view>
+          <view class="square-footer">
+<!--            <button size="mini" class="pill-btn" data-type="go" bindtap="onTapAdd">添加</button>-->
+              <image class="pill-btn-image" src="../images/add-textV2.svg" data-type="go" bindtap="onTapAdd" ></image>
+          </view>
+        </view>
+      </view>
+
+        <view class="square">
+            <view class="square-inner">
+                <view class="mini-title">下单菜品</view>
+                <view class="items" >
+                    <block wx:for="{{orderedList}}" wx:key="id">
+                        <view class="ordered-item">
+                            <checkbox checked="{{item.done}}" data-type="ordered" data-id="{{item.id}}" bindchange="onToggleDone"/>
+                            <text class="item-text {{item.done ? 'done' : ''}}">{{item.text}}</text>
+                            <text class="item-remove" data-type="ordered" data-id="{{item.id}}" bindtap="onRemoveItem">×</text>
+                        </view>
+                    </block>
+                    <view wx:if="{{orderedList.length === 0}}" class="drawer-empty">暂无下单记录</view>
+                </view>
+                <view class="square-footer"></view>
+            </view>
+        </view>
+    </view>
+  </view>
+
+
+  <!-- Custom Footer Nav -->
+  <view class="footer-nav">
+    <view class="footer-box">
+      <view class="footer-btn" bindtap="goIndex">点菜</view>
+      <view class="footer-btn" bindtap="goWheel">大转盘</view>
+      <view class="footer-btn active" bindtap="goTodo">TODO</view>
+    </view>
+  </view>
+
+  <!-- Input Modal -->
+  <view wx:if="{{showInput}}" class="drawer-mask" catchtap="onCancelInput"></view>
+  <view class="input-modal {{showInput ? 'open' : ''}}">
+    <view class="input-title">添加到「{{panelLabel}}」</view>
+    <input class="input-field" placeholder="请输入内容" value="{{inputText}}" bindinput="onInputChange"/>
+    <view class="input-actions">
+      <button size="mini" class="ghost" bindtap="onCancelInput">取消</button>
+      <button size="mini" class="solid" bindtap="onConfirmInput">确定</button>
+    </view>
+  </view>
+</view>

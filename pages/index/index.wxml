@@ -1,0 +1,100 @@
+<view class="page">
+  <!-- Header Title -->
+  <view class="header safe-area-top">
+    <image class="header-bg" src="/assets/warm-header.jpg" mode="aspectFill"></image>
+    <text class="title cute-font">胡闹厨房</text>
+  </view>
+
+  <!-- Main Content -->
+  <view class="content">
+    <!-- Categories Sidebar -->
+    <scroll-view class="sidebar" scroll-y>
+      <block wx:for="{{categories}}" wx:key="name">
+        <view
+          class="category-item {{activeCategoryIndex === index ? 'active' : ''}}"
+          bindtap="onTapCategory"
+          data-index="{{index}}"
+        >
+          <text>{{item.name}}</text>
+        </view>
+      </block>
+    </scroll-view>
+
+    <!-- Dishes Panel -->
+    <scroll-view
+      class="dishes-panel"
+      scroll-y
+      scroll-into-view="{{scrollIntoView}}"
+      bindscroll="onDishesScroll"
+    >
+      <block wx:for="{{sections}}" wx:key="id">
+        <view class="section" id="{{item.id}}" data-index="{{index}}">
+          <view class="section-header">
+            <text class="section-title">{{item.title}}</text>
+          </view>
+          <view class="dishes">
+            <block wx:for="{{item.items}}" wx:key="name">
+              <view class="dish-card {{animating[item.name] ? 'shake' : ''}}">
+                <view class="dish-thumb">{{item.emoji}}</view>
+                <view class="dish-info">
+                  <text class="dish-name">{{item.name}}</text>
+                  <text class="dish-desc">{{item.desc}}</text>
+                </view>
+                <view class="dish-action">
+                    <image class="add-btn" src="add_button.svg" data-name="{{item.name}}" bindtap="onAddDish" />
+                </view>
+              </view>
+            </block>
+          </view>
+        </view>
+      </block>
+      <view class="safe-area-bottom"></view>
+    </scroll-view>
+    <!-- Floating Cart -->
+    <view class="cart-fab" bindtap="onTapCart">
+      <text class="cart-icon">🛒</text>
+      <view wx:if="{{cartCount > 0}}" class="cart-badge">{{cartCount}}</view>
+    </view>
+    
+    <!-- Cart Drawer -->
+    <view wx:if="{{showCartDrawer}}" class="drawer-mask" catchtap="onCloseCart"></view>
+    <view class="cart-drawer {{showCartDrawer ? 'open' : ''}}">
+      <view class="drawer-header">
+        <text>已选菜品</text>
+        <text class="close" bindtap="onCloseCart">×</text>
+      </view>
+      <scroll-view class="drawer-list" scroll-y>
+        <block wx:if="{{cartList.length > 0}}">
+          <block wx:for="{{cartList}}" wx:key="name">
+            <view class="drawer-item">
+              <view class="drawer-left">
+                <view class="drawer-emoji">{{item.emoji}}</view>
+                <view class="drawer-info">
+                  <text class="drawer-name">{{item.name}}</text>
+                  <text class="drawer-desc">{{item.desc}}</text>
+                </view>
+              </view>
+              <view class="drawer-right">
+                <text class="drawer-count">×{{item.count}}</text>
+                <text class="drawer-remove" data-name="{{item.name}}" bindtap="onRemoveCartItem">×</text>
+              </view>
+            </view>
+          </block>
+        </block>
+        <view wx:else class="drawer-empty">购物车为空</view>
+          <view class="drawer-footer">
+              <view class="order-btn" bindtap="onPlaceOrder">下单</view>
+          </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <!-- Custom Footer Nav -->
+  <view class="footer-nav">
+    <view class="footer-box">
+      <view class="footer-btn active" bindtap="goIndex">点菜</view>
+      <view class="footer-btn" bindtap="goWheel">大转盘</view>
+      <view class="footer-btn" bindtap="goTodo">TODO</view>
+    </view>
+  </view>
+</view>

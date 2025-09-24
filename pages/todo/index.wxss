@@ -1,0 +1,142 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow-x: hidden;
+}
+.todo-content {
+  padding: 24rpx;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 120rpx;
+  min-height: 0;
+}
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+.square {
+  background: transparent;
+  border-radius: 24rpx;
+}
+.square-inner {
+  background: #fff;
+  border-radius: 24rpx;
+  box-shadow: 0 8rpx 24rpx rgba(0,0,0,0.06), inset 0 1rpx 0 rgba(255,255,255,0.6);
+  display: flex;
+  flex-direction: column;
+   min-height: 400rpx
+}
+.mini-title {
+  font-size: 28rpx;
+  color: #666;
+  padding: 20rpx 24rpx;
+}
+.items {
+  flex: 1;
+  padding: 0 24rpx;
+  /*height: 200rpx;*/
+}
+.item {
+  padding: 12rpx 0;
+  border-bottom: 1px dashed #f0f0f0;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  width: 100%;
+}
+.item-text {
+    flex: 1; /* 修改点：让文本占满剩余空间，防止长文本挤压移除按钮 */
+}
+.item-text.done {
+  color: #bbb;
+  text-decoration: line-through;
+}
+.item-remove {
+  /*position: absolute;*/
+  margin-left: auto;
+  font-size: 32rpx;
+  color: #999;
+  padding: 0 30rpx;
+}
+.ordered-item {
+    padding: 12rpx 0;
+    border-bottom: 1px dashed #f0f0f0;
+    display: flex;
+    align-items: center;
+    gap: 12rpx;
+    width: 100%;
+}
+.ordered-item .item-text.done {
+    color: #bbb;
+    text-decoration: line-through;
+    flex-shrink: 0;
+}
+.ordered-item .item-remove {
+    margin-left: auto;
+    font-size: 32rpx;
+    color: #999;
+    padding: 0 25rpx;
+}
+.square-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16rpx 0 24rpx;
+}
+.pill-btn {
+  border-radius: 999rpx;
+  background: #ffffff;
+  box-shadow: 0 6rpx 16rpx rgba(0,0,0,0.06);
+  padding: 0 24rpx;
+}
+.pill-btn-image {
+    /*border-radius: 999rpx;*/
+    /*background: #ffffff;*/
+    /*box-shadow: 0 6rpx 16rpx rgba(0,0,0,0.06);*/
+    /*padding: 0 24rpx;*/
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*justify-content: center;*/
+    height: 72rpx; /* 匹配 button mini 默认高度 */
+    width: 110rpx; /* 匹配文本 + padding 的估算宽度 */
+}
+.input-modal {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: -260rpx;
+  background: #fff;
+  border-top-left-radius: 24rpx;
+  border-top-right-radius: 24rpx;
+  box-shadow: 0 -8rpx 24rpx rgba(0,0,0,0.08);
+  padding: 24rpx;
+  transition: bottom 220ms ease-out;
+}
+.input-modal.open {
+  bottom: 0;
+}
+.input-title {
+  font-size: 28rpx;
+  margin-bottom: 16rpx;
+}
+.input-field {
+  border: 1px solid #eee;
+  border-radius: 12rpx;
+  padding: 16rpx;
+}
+.input-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16rpx;
+  margin-top: 16rpx;
+}
+.ghost {
+  background: #f7f7f7;
+}
+.solid {
+  background: #ffefe6;
+  color: #ff6a00;
+}

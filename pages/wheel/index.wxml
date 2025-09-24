@@ -1,0 +1,62 @@
+<view class="page">
+  <!-- Header same as Home -->
+  <view class="header safe-area-top">
+    <image class="header-bg" src="/assets/warm-header.jpg" mode="aspectFill"></image>
+    <text class="title cute-font">胡闹厨房</text>
+  </view>
+
+  <view class="wheel-content">
+    <!-- Left categories as buttons -->
+    <scroll-view class="wheel-left" scroll-y>
+      <block wx:for="{{categories}}" wx:key="name">
+        <button class="cat-btn" size="mini" data-name="{{item.name}}" bindtap="onAddToWheel">{{item.name}}</button>
+      </block>
+    </scroll-view>
+
+    <!-- Wheel center/right -->
+    <view class="wheel-right">
+      <canvas type="2d" id="wheelCanvas" class="wheel-canvas"></canvas>
+      <view class="wheel-go" bindtap="onGo">GO</view>
+      <view class="pointer"></view>
+    </view>
+  </view>
+
+  <!-- Wheel Floating Badge -->
+  <view class="wheel-fab" bindtap="onOpenWheelDrawer">
+    <text class="wheel-fab-icon">🎯</text>
+    <view wx:if="{{wheelCount > 0}}" class="wheel-badge">{{wheelCount}}</view>
+  </view>
+
+  <!-- Wheel Drawer -->
+  <view wx:if="{{showWheelDrawer}}" class="drawer-mask" catchtap="onCloseWheelDrawer"></view>
+  <view class="wheel-drawer {{showWheelDrawer ? 'open' : ''}}">
+    <view class="drawer-header">
+      <text>已选菜品</text>
+      <text class="close" bindtap="onCloseWheelDrawer">×</text>
+    </view>
+    <scroll-view class="drawer-list" scroll-y>
+      <block wx:if="{{wheelItems.length > 0}}">
+        <block wx:for="{{wheelItems}}" wx:key="name">
+          <view class="drawer-item">
+            <text class="drawer-name">{{item}}</text>
+            <text class="drawer-remove" data-name="{{item}}" bindtap="onRemoveFromWheel">×</text>
+          </view>
+        </block>
+      </block>
+      <view wx:else class="drawer-empty">尚未选择菜品</view>
+        <view class="drawer-actions">
+            <button size="mini" class="ghost" bindtap="onClearWheel">清空全部</button>
+        </view>
+    </scroll-view>
+  </view>
+
+  <!-- Custom Footer Nav -->
+  <view class="footer-nav">
+    <view class="footer-box">
+      <view class="footer-btn" bindtap="goIndex">点菜</view>
+      <view class="footer-btn active" bindtap="goWheel">大转盘</view>
+      <view class="footer-btn" bindtap="goTodo">TODO</view>
+    </view>
+  </view>
+</view>
+

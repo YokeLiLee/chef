@@ -1,0 +1,15 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/wheel/index",
+    "pages/todo/index"
+  ],
+  "window": {
+    "navigationStyle": "default",
+    "navigationBarTitleText": "胡闹厨房",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black"
+  }
+}
+
