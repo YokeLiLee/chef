@@ -258,7 +258,7 @@
 .order-btn {
     background: #ff3b30;
     color: #fff;
-    padding: 20rpx 40rpx;
+    padding: 10rpx 40rpx;
     border-radius: 12rpx;
     text-align: center;
     font-size: 28rpx;

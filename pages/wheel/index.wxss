@@ -16,20 +16,28 @@
     border-radius: 50%;
     box-shadow: 0 8rpx 24rpx rgba(0,0,0,0.06);
 }
-.wheel-go {
+/*文字按钮样式*/
+/*.wheel-go {*/
+/*    position: absolute;*/
+/*    width: 160rpx;*/
+/*    height: 160rpx;*/
+/*    line-height: 160rpx;*/
+/*    text-align: center;*/
+/*    border-radius: 50%;*/
+/*    background: #ffefe6;*/
+/*    color: #ff6a00;*/
+/*    font-weight: 700;*/
+/*    letter-spacing: 2rpx;*/
+/*}*/
+/*.pointer { position: absolute; width: 0; height: 0; border-left: 22rpx solid transparent; border-right: 22rpx solid transparent; border-bottom: 120rpx solid #ff6a00; top: calc(50% - 60rpx - 260rpx); filter: drop-shadow(0 4rpx 8rpx rgba(0,0,0,0.2)); z-index: 1; }*/
+/*图片按钮样式*/
+.wheel-arrow {
     position: absolute;
-    width: 160rpx;
-    height: 160rpx;
-    line-height: 160rpx;
-    text-align: center;
-    border-radius: 50%;
-    background: #ffefe6;
-    color: #ff6a00;
-    font-weight: 700;
-    letter-spacing: 2rpx;
+    width: 160rpx; /* Adjust based on SVG size; matches previous wheel-go width */
+    top: calc(50% - 300rpx - 60rpx); /* Position above wheel, adjust based on SVG height */
+    z-index: 1;
+    filter: drop-shadow(0 4rpx 8rpx rgba(0,0,0,0.2));
 }
-.pointer { position: absolute; width: 0; height: 0; border-left: 22rpx solid transparent; border-right: 22rpx solid transparent; border-bottom: 120rpx solid #ff6a00; top: calc(50% - 60rpx - 260rpx); filter: drop-shadow(0 4rpx 8rpx rgba(0,0,0,0.2)); z-index: 1; }
-
 .wheel-fab { position: fixed; right: 24rpx; bottom: 140rpx; width: 96rpx; height: 96rpx; border-radius: 50%; background: #ffffff; box-shadow: 0 8rpx 24rpx rgba(0,0,0,0.08); display: flex; align-items: center; justify-content: center; z-index: 20; }
 .wheel-fab-icon { font-size: 44rpx; }
 .wheel-badge {
@@ -104,5 +112,15 @@
     justify-content: center;
     border-top: 1px solid #f0f0f0;
     padding-bottom: 120rpx;
+}
+
+.ghost {
+    background: #ff3b30;
+    color: #fff;
+    padding: 20rpx 40rpx;
+    border-radius: 12rpx;
+    text-align: center;
+    font-size: 28rpx;
+    font-weight: 600;
 }
 

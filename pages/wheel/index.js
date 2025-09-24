@@ -107,10 +107,10 @@ Page({
   onGo() {
     if (this.data.wheelItems.length === 0 || this.data.spinning) return;
     this.setData({ spinning: true });
-    const extraTurns = 4 + Math.floor(Math.random() * 3); // 4-6 turns
+    const extraTurns = 4 + Math.floor(Math.random() * 5); // 4-8 turns
     const targetIndex = Math.floor(Math.random() * this.data.wheelItems.length);
     const anglePer = 360 / this.data.wheelItems.length;
-    const targetAngle = extraTurns * 360 + (360 - targetIndex * anglePer) - anglePer / 2; // align pointer to segment center
+    const targetAngle = extraTurns * 360 + (270 - targetIndex * anglePer) - anglePer / 2; // align pointer to segment center
 
     const duration = 3000;
     const start = Date.now();
@@ -128,7 +128,7 @@ Page({
         this.setData({ spinning: false });
         const finalIndex = targetIndex;
         const result = this.data.wheelItems[finalIndex];
-        wx.showToast({ title: `结果：${result}`, icon: 'none' });
+        wx.showToast({ title: `去吃:${result}`, icon: 'none' });
       }
     };
     this.animId = this.canvas.requestAnimationFrame(animate);
