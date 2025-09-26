@@ -34,7 +34,7 @@
           </view>
           <view class="dishes">
             <block wx:for="{{item.items}}" wx:key="name">
-              <view class="dish-card {{animating[item.name] ? 'shake' : ''}}">
+              <view class="dish-card {{animating[item.name] ? 'scale' : ''}}">
                 <view class="dish-thumb">{{item.emoji}}</view>
                 <view class="dish-info">
                   <text class="dish-name">{{item.name}}</text>

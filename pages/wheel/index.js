@@ -15,7 +15,8 @@ Page({
     wheelItems: [],
     spinning: false,
     angle: 0,
-    showWheelDrawer: false
+    showWheelDrawer: false,
+    animating: {}
   },
 
   onLoad() {
@@ -75,7 +76,20 @@ Page({
       return;
     }
 
-    const colors = ['#ffe6d9','#fff3e0','#e7f5ff','#e6fffb','#f3f0ff','#e8f5e9'];
+      const colors = [
+          '#ffe6d9', // Light peach
+          '#fff3e0', // Light cream
+          '#e7f5ff', // Light sky blue
+          '#e6fffb', // Light aqua
+          '#f3f0ff', // Light lavender
+          '#e8f5e9', // Light mint green
+          '#fff0f5', // Added: Light blush pink
+          '#f0f8ff', // Added: Light alice blue
+          '#f5f5e0', // Added: Light cream yellow
+          '#e6f0fa', // Added: Light periwinkle
+          '#f0fff0', // Added: Light honeydew
+          '#fff5ee'  // Added: Light seashell
+      ];
     const anglePer = (2 * Math.PI) / count;
 
     for (let i = 0; i < count; i += 1) {
@@ -94,7 +108,7 @@ Page({
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillStyle = '#333';
-      ctx.font = '40px sans-serif';
+      ctx.font = '60px sans-serif';
       ctx.fillText(items[i], radius * 0.6, 0);
       ctx.restore();
     }
@@ -102,22 +116,29 @@ Page({
     ctx.restore();
   },
 
-  onAddToWheel(e) {
-    const emoji = e.currentTarget.dataset.emoji;
-    const set = new Set(this.data.wheelItems);
-    if (set.size >= 10 && !set.has(emoji)) {
-      wx.showToast({ title: '最多添加 10 个菜品', icon: 'none' });
-      return;
-    }
-    set.add(emoji);
-    const wheelItems = Array.from(set);
-    const wheelItemNames = wheelItems.map(emoji => {
-      const category = this.data.categories.find(cat => cat.emoji === emoji);
-      return category ? category.name : emoji; // Fallback to emoji if no match
-    }); // Added: Compute names for drawer
-    const wheelCount = wheelItems.length;
-    this.setData({ wheelItems, wheelItemNames, wheelCount }, () => this.drawWheel());
-  },
+    onAddToWheel(e) {
+        const emoji = e.currentTarget.dataset.emoji;
+        const set = new Set(this.data.wheelItems);
+        if (set.size >= 10 && !set.has(emoji)) {
+            wx.showToast({ title: '最多添加 10 个菜品', icon: 'none' });
+            return;
+        }
+        set.add(emoji);
+        const wheelItems = Array.from(set);
+        const wheelItemNames = wheelItems.map(emoji => {
+            const category = this.data.categories.find(cat => cat.emoji === emoji);
+            return category ? category.name : emoji; // Fallback to emoji if no match
+        });
+        const wheelCount = wheelItems.length;
+        const animating = { ...this.data.animating, [emoji]: true }; // Trigger animation
+        this.setData({ wheelItems, wheelItemNames, wheelCount, animating }, () => {
+            this.drawWheel();
+            // Reset animation after 300ms (matches animation duration)
+            setTimeout(() => {
+                this.setData({ [`animating.${emoji}`]: false });
+            }, 300);
+        });
+    },
 
   onGo() {
     if (this.data.wheelItems.length === 0 || this.data.spinning) return;

@@ -18,7 +18,9 @@ App({
             // 常见原因：env ID 错、网络问题、云开发未开通
         });
         this.globalData = {
-            cloudReady: false
+            cloudReady: false,
+            cartItems: {},      // 购物车物品（e.g., { '宫保鸡丁': 2 }）
+            cartCount: 0        // 购物车总数量，用于徽章显示
         };
     }
 });

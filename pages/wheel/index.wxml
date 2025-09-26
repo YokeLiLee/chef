@@ -5,8 +5,6 @@
     <text class="title cute-font">小婧要吃</text>
   </view>
 
-  <view class="wheel-bg-big">
-      <image class="wheel-bg" src="../images/bg.jpg" mode="aspectFill"></image>
       <view class="wheel-content">
           <!-- Categories in a single section -->
           <view class="section">
@@ -15,7 +13,7 @@
               </view>
               <view class="dishes">
                   <block wx:for="{{categories}}" wx:key="name">
-                      <view class="cat-card" data-emoji="{{item.emoji}}" bindtap="onAddToWheel">
+                      <view class="cat-card {{animating[item.emoji] ? 'scale' : ''}}" data-emoji="{{item.emoji}}" bindtap="onAddToWheel">
                           <view class="cat-thumb">{{item.emoji}}</view>
                           <text class="cat-name">{{item.name}}</text>
                       </view>
@@ -25,12 +23,14 @@
 
           <!-- Wheel center -->
           <view class="wheel-center">
+<!--              <view class="wheel-bg-big"></view>-->
+<!--              <image class="wheel-bg" src="../images/bg.jpg" mode="aspectFill"></image>-->
               <canvas type="2d" id="wheelCanvas" class="wheel-canvas"></canvas>
               <image class="wheel-arrow" src="../images/arrow.svg" mode="widthFix" bindtap="onGo"  wx:if="{{!showWheelDrawer}}" ></image>
-    <!--          <view class="wheel-go" bindtap="onGo">GO</view>-->
-    <!--          <view class="pointer"></view>-->
+              <!--          <view class="wheel-go" bindtap="onGo">GO</view>-->
+              <!--          <view class="pointer"></view>-->
           </view>
-      </view>
+
 
       <!-- Wheel Floating Badge -->
       <view class="wheel-fab" bindtap="onOpenWheelDrawer">

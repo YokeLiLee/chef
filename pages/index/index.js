@@ -78,17 +78,91 @@ Page({
 
         this.setData({ sections, scrollIntoView: sections[0].id });
         this.computeSectionTops();
+        this.restoreCart();
         this.waitForCloudInit(() => {
             this.loadOrderedDishes();
             this.setupOrderedDishesWatcher();
         });
     },
 
+    // Added: 从全局/本地恢复购物车数据
+    restoreCart() {
+        const app = getApp();
+        let cartItems = app.globalData.cartItems;
+        let cartCount = app.globalData.cartCount;
+
+        // 如果全局为空，从本地存储恢复
+        if (Object.keys(cartItems).length === 0) {
+            const stored = wx.getStorageSync('cartItems');
+            if (stored) {
+                cartItems = stored.cartItems || {};
+                cartCount = stored.cartCount || 0;
+                // 同步到全局
+                app.globalData.cartItems = cartItems;
+                app.globalData.cartCount = cartCount;
+            }
+        }
+
+        // 计算 cartList 并设置数据
+        const cartList = Object.keys(cartItems).map(n => {
+            const found = this.findDishByName(n);
+            return { name: n, count: cartItems[n], emoji: found?.emoji || '', desc: found?.desc || '' };
+        });
+
+        this.setData({ cartItems, cartCount, cartList });
+        console.log('购物车数据已恢复', { cartItems, cartCount });
+    },
+
+    // Added: Handle page show to reinitialize watcher on cache restoration
+    onShow() {
+        console.log('点菜页面 onShow');
+        this.restoreCart();
+        const app = getApp();
+        if (app.globalData.cloudReady) {
+            console.log('云环境已就绪，重新加载订单并设置监听');
+            this.loadOrderedDishes();
+            // Close existing watcher if it exists
+            if (this.orderedWatcher) {
+                this.orderedWatcher.close();
+                this.orderedWatcher = null;
+                console.log('关闭旧的订单监听器');
+            }
+            this.setupOrderedDishesWatcher();
+        }
+    },
+
+    // Added: Close watcher when page is hidden (e.g., exit mini-program)
+    onHide() {
+        console.log('点菜页面 onHide');
+        this.saveCart();
+        if (this.orderedWatcher) {
+            this.orderedWatcher.close();
+            this.orderedWatcher = null;
+            console.log('页面隐藏，关闭订单监听器');
+        }
+    },
+
     onUnload() {
+        console.log('点菜页面 onUnload');
+        this.saveCart();
         if (this.orderedWatcher) {
             this.orderedWatcher.close();
             this.orderedWatcher = null;
         }
+    },
+
+    saveCart() {
+        const app = getApp();
+        app.globalData.cartItems = this.data.cartItems;
+        app.globalData.cartCount = this.data.cartCount;
+
+        // 保存到本地存储（持久化）
+        wx.setStorageSync('cartItems', {
+            cartItems: this.data.cartItems,
+            cartCount: this.data.cartCount
+        });
+
+        console.log('购物车数据已保存', { cartItems: this.data.cartItems, cartCount: this.data.cartCount });
     },
 
     // Wait for cloud initialization before running callback
@@ -143,6 +217,7 @@ Page({
                 setTimeout(() => this.setupOrderedDishesWatcher(), 5000);
             }
         });
+        console.log('订单监听器已设置'); // Added: Log to confirm watcher setup
     },
 
     computeSectionTops() {
@@ -190,6 +265,12 @@ Page({
             return { name: n, count: cartItems[n], emoji: found?.emoji || '', desc: found?.desc || '' };
         });
         this.setData({ cartItems, cartCount, animating, cartList });
+
+        // Added: 同步到全局
+        const app = getApp();
+        app.globalData.cartItems = cartItems;
+        app.globalData.cartCount = cartCount;
+
         setTimeout(() => {
             this.setData({ [`animating.${name}`]: false });
         }, 320);
@@ -197,6 +278,11 @@ Page({
 
     onTapCart() {
         this.setData({ showCartDrawer: true });
+    },
+
+    // 添加 onCloseCart 方法
+    onCloseCart() {
+        this.setData({ showCartDrawer: false });
     },
 
     onRemoveCartItem(e) {
@@ -210,6 +296,11 @@ Page({
             return { name: n, count: cartItems[n], emoji: found?.emoji || '', desc: found?.desc || '' };
         });
         this.setData({ cartItems, cartCount, cartList });
+
+        // Added: 同步到全局
+        const app = getApp();
+        app.globalData.cartItems = cartItems;
+        app.globalData.cartCount = cartCount;
     },
 
     onPlaceOrder() {
@@ -239,6 +330,11 @@ Page({
                 console.log('订单提交成功');
                 wx.showToast({ title: '订单已提交', icon: 'success' });
                 this.setData({ cartItems: {}, cartCount: 0, cartList: [], showCartDrawer: false });
+                // Added: 清空全局和本地
+                app.globalData.cartItems = {};
+                app.globalData.cartCount = 0;
+                wx.removeStorageSync('cartItems');
+                this.setData({ showCartDrawer: false });
             })
             .catch(err => {
                 console.error('添加订单失败', err);

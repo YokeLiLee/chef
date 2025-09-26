@@ -26,6 +26,22 @@
     gap: 16rpx;
     padding: 8rpx 0;
 }
+/*.cat-card {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: center;*/
+/*    gap: 8rpx;*/
+/*    padding: 12rpx;*/
+/*    border-radius: 16rpx;*/
+/*    background: #f9fafb;*/
+/*    width: 100rpx; !* Smaller than dish-card (160rpx) *!*/
+/*    box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.06);*/
+/*}*/
+@keyframes scale {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
 .cat-card {
     display: flex;
     flex-direction: column;
@@ -33,9 +49,13 @@
     gap: 8rpx;
     padding: 12rpx;
     border-radius: 16rpx;
-    background: #f9fafb;
+    background: linear-gradient(to bottom, #ffffff, #f0f0f0); /* Subtle gradient for Apple-like depth */
     width: 100rpx; /* Smaller than dish-card (160rpx) */
-    box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.06);
+    box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.1), 0 1rpx 0 rgba(255,255,255,0.8) inset; /* Soft shadow and inner highlight */
+    transition: all 0.2s ease; /* Smooth transition for animation */
+}
+.cat-card.scale {
+    animation: scale 300ms ease-in-out; /* Apply scale animation */
 }
 .cat-thumb { font-size: 40rpx; } /* Smaller than dish-thumb (60rpx) */
 .cat-name {
@@ -60,6 +80,8 @@
     box-shadow: 0 8rpx 24rpx rgba(0,0,0,0.06);
     margin: 0;
     padding: 0;
+    position: relative;
+    top: -8%;
 }
 /*文字按钮样式*/
 /*.wheel-go {*/
@@ -81,7 +103,7 @@
     width: 362rpx;
     height: 350rpx;
     left: 50%;
-    top: 50%;
+    top: calc(50% - 8%);
     transform: translate(-50%, -50%); /* Center the arrow */
     z-index: 1;
     filter: drop-shadow(0 4rpx 8rpx rgba(0,0,0,0.2));
