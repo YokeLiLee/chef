@@ -1,7 +1,21 @@
 .page { display: flex; flex-direction: column; height: 100vh; }
+.wheel-bg-big {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    position: relative;
+}
+.wheel-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1; /* 确保背景图片在内容后面 */
+}
 .wheel-content { display: flex; flex-direction: column; flex: 1; min-height: 0; }
 .categories { display: flex; flex-wrap: wrap; gap: 16rpx; padding: 16rpx; justify-content: center; max-width: 100%; } /* 允许按钮换行 */
-.section { padding: 16rpx; }
+.section { padding: 16rpx 16rpx 8rpx; }
 .section-header { padding: 8rpx 0; }
 .section-title { font-size: 28rpx; color: #999; text-align: center}
 .dishes {
@@ -35,6 +49,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0;
+    gap: 4rpx;
 }
 .wheel-canvas {
     width: 600rpx;
@@ -42,6 +58,8 @@
     background: #fff;
     border-radius: 50%;
     box-shadow: 0 8rpx 24rpx rgba(0,0,0,0.06);
+    margin: 0;
+    padding: 0;
 }
 /*文字按钮样式*/
 /*.wheel-go {*/
@@ -60,8 +78,11 @@
 /*图片按钮样式*/
 .wheel-arrow {
     position: absolute;
-    width: 160rpx; /* Adjust based on SVG size; matches previous wheel-go width */
-    top: calc(50% - 300rpx - 60rpx); /* Position above wheel, adjust based on SVG height */
+    width: 362rpx;
+    height: 350rpx;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); /* Center the arrow */
     z-index: 1;
     filter: drop-shadow(0 4rpx 8rpx rgba(0,0,0,0.2));
 }

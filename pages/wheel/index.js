@@ -11,6 +11,7 @@ Page({
         { name: '汉堡包', emoji: '🍔' },
         { name: '拉面', emoji: '🍜' }
     ],
+    wheelItemNames: [],
     wheelItems: [],
     spinning: false,
     angle: 0,
@@ -93,7 +94,7 @@ Page({
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillStyle = '#333';
-      ctx.font = '16px sans-serif';
+      ctx.font = '40px sans-serif';
       ctx.fillText(items[i], radius * 0.6, 0);
       ctx.restore();
     }
@@ -102,16 +103,20 @@ Page({
   },
 
   onAddToWheel(e) {
-    const name = e.currentTarget.dataset.name;
+    const emoji = e.currentTarget.dataset.emoji;
     const set = new Set(this.data.wheelItems);
-    if (set.size >= 10 && !set.has(name)) {
+    if (set.size >= 10 && !set.has(emoji)) {
       wx.showToast({ title: '最多添加 10 个菜品', icon: 'none' });
       return;
     }
-    set.add(name);
+    set.add(emoji);
     const wheelItems = Array.from(set);
+    const wheelItemNames = wheelItems.map(emoji => {
+      const category = this.data.categories.find(cat => cat.emoji === emoji);
+      return category ? category.name : emoji; // Fallback to emoji if no match
+    }); // Added: Compute names for drawer
     const wheelCount = wheelItems.length;
-    this.setData({ wheelItems, wheelCount }, () => this.drawWheel());
+    this.setData({ wheelItems, wheelItemNames, wheelCount }, () => this.drawWheel());
   },
 
   onGo() {
@@ -135,10 +140,12 @@ Page({
       if (t < 1) {
         this.animId = this.canvas.requestAnimationFrame(animate);
       } else {
-        this.setData({ spinning: false });
-        const finalIndex = targetIndex;
-        const result = this.data.wheelItems[finalIndex];
-        wx.showToast({ title: `去吃:${result}`, icon: 'none' });
+          this.setData({ spinning: false });
+          const finalIndex = targetIndex;
+          const emoji = this.data.wheelItems[finalIndex];
+          const category = this.data.categories.find(cat => cat.emoji === emoji); // Modified: Map emoji to name
+          const result = category ? category.name : emoji; // Modified: Use name for toast
+          wx.showToast({ title: `去吃: ${result}`, icon: 'none' }); // Modified: Shows name instead of emoji
       }
     };
     this.animId = this.canvas.requestAnimationFrame(animate);
@@ -151,13 +158,17 @@ Page({
     this.setData({ showWheelDrawer: false });
   },
   onRemoveFromWheel(e) {
-    const name = e.currentTarget.dataset.name;
-    const wheelItems = this.data.wheelItems.filter(n => n !== name);
+    const emoji = e.currentTarget.dataset.emoji; // Modified: Changed from dataset.name to dataset.emoji
+    const wheelItems = this.data.wheelItems.filter(n => n !== emoji); // Modified: Filter by emoji
+    const wheelItemNames = wheelItems.map(emoji => {
+      const category = this.data.categories.find(cat => cat.emoji === emoji);
+      return category ? category.name : emoji; // Fallback to emoji
+    }); // Added: Update names for drawer
     const wheelCount = wheelItems.length;
-    this.setData({ wheelItems, wheelCount }, () => this.drawWheel());
+    this.setData({ wheelItems, wheelItemNames, wheelCount }, () => this.drawWheel());
   },
   onClearWheel() {
-    this.setData({ wheelItems: [], wheelCount: 0 }, () => this.drawWheel());
+    this.setData({ wheelItems: [], wheelItemNames: [], wheelCount: 0 }, () => this.drawWheel());
   },
 
   goIndex() { wx.reLaunch({ url: '/pages/index/index' }); },
