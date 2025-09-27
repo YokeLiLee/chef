@@ -102,14 +102,14 @@
     </view>
   </view>
 
-  <!-- Input Modal -->
-  <view wx:if="{{showInput}}" class="drawer-mask" catchtap="onCancelInput"></view>
-  <view class="input-modal {{showInput ? 'open' : ''}}">
-    <view class="input-title">添加到「{{panelLabel}}」</view>
-    <input class="input-field" placeholder="请输入内容" value="{{inputText}}" bindinput="onInputChange"/>
-    <view class="input-actions">
-      <button size="mini" class="ghost" bindtap="onCancelInput">取消</button>
-      <button size="mini" class="solid" bindtap="onConfirmInput">确定</button>
+    <!-- Input Modal -->
+    <view wx:if="{{showInput}}" class="drawer-mask" catchtap="onCancelInput"></view>
+    <view class="input-modal {{showInput ? 'open' : ''}}">
+        <view class="input-title">添加到「{{panelLabel}}」</view>
+        <input class="input-field" placeholder="请输入内容" value="{{inputText}}" bindinput="onInputChange" bindconfirm="onConfirmInput" focus="{{showInput}}" />
+        <view class="input-actions">
+            <button size="mini" class="ghost" bindtap="onCancelInput">取消</button>
+            <button size="mini" class="solid" bindtap="onConfirmInput">确定</button>
+        </view>
     </view>
-  </view>
 </view>

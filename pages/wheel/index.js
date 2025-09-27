@@ -3,16 +3,17 @@ Page({
     categories: [
         { name: '炒菜', emoji: '🔥' },
         { name: '漂亮饭', emoji: '🥗' },
-        { name: '肉蟹煲', emoji: '🍚' },
-        { name: '日料', emoji: '🍰' },
-        { name: '韩料', emoji: '🥤' },
+        { name: '肉蟹煲', emoji: '🥘' },
+        { name: '日料', emoji: '🍣' },
+        { name: '韩料', emoji: '🍱' },
         { name: '火锅', emoji: '🍲' },
         { name: '串串香', emoji: '🍡' },
         { name: '汉堡包', emoji: '🍔' },
         { name: '烤鱼', emoji: '🍜' },
-        { name: '泰餐', emoji: '🍜' },
-        { name: '烤肉', emoji: '🍜' },
-        { name: '披萨', emoji: '🍜' }
+        { name: '泰餐', emoji: '🌶️' },
+        { name: '烤肉', emoji: '🍖' },
+        { name: '披萨', emoji: '🍕' },
+        { name: '烧烤', emoji: '🍢' }
     ],
     wheelItemNames: [],
     wheelItems: [],

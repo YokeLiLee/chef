@@ -71,7 +71,11 @@ Page({
                 title: '饮品',
                 items: [
                     { name: '柠檬茶', desc: '清新解腻', emoji: '🍋' },
-                    { name: '拿铁', desc: '丝滑醇香', emoji: '☕' }
+                    { name: '咖啡', desc: '丝滑醇香', emoji: '☕' },
+                    { name: '雪糕', desc: '有点扎牙', emoji: '🍦' },
+                    { name: '可乐', desc: '肥宅快乐水', emoji: '🥤' },
+                    { name: '果汁', desc: '鲜榨营养', emoji: '🧃' },
+                    { name: '啤酒', desc: '包治百病', emoji: '🍺' }
                 ]
             }
         ];
@@ -321,6 +325,7 @@ Page({
                     id: Date.now() + Math.random().toString(36).substr(2, 9),
                     text: `${item.emoji} ${item.name} (${item.count}x)`,
                     done: false,
+                    order: Date.now(), // Added: Initial order
                     createdAt: new Date()
                 }
             });
