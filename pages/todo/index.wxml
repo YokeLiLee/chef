@@ -13,11 +13,13 @@
           <view class="mini-title">想吃</view>
           <view class="items" >
             <block wx:for="{{eatList}}" wx:key="id">
-              <view class="item">
-                <checkbox checked="{{item.done}}" data-type="eat" data-id="{{item.id}}" bindchange="onToggleDone"/>
-                <text class="item-text {{item.done ? 'done' : ''}}">{{item.text}}</text>
-                <text class="item-remove" data-type="eat" data-id="{{item.id}}" bindtap="onRemoveItem">×</text>
-              </view>
+                <view class="item">
+                    <checkbox-group bindchange="onToggleDone" data-type="eat" data-id="{{item.id}}">
+                        <checkbox value="{{item.id}}" checked="{{item.done}}" />
+                    </checkbox-group>
+                    <text class="item-text {{item.done ? 'done' : ''}}">{{item.text}}</text>
+                    <text class="item-remove" data-type="eat" data-id="{{item.id}}" bindtap="onRemoveItem">×</text>
+                </view>
             </block>
           </view>
           <view class="square-footer">
@@ -34,7 +36,9 @@
           <view class="items" >
             <block wx:for="{{cookList}}" wx:key="id">
               <view class="item">
-                <checkbox checked="{{item.done}}" data-type="cook" data-id="{{item.id}}" bindchange="onToggleDone"/>
+                <checkbox-group bindchange="onToggleDone" data-type="cook" data-id="{{item.id}}">
+                  <checkbox value="{{item.id}}" checked="{{item.done}}" />
+                </checkbox-group>
                 <text class="item-text {{item.done ? 'done' : ''}}">{{item.text}}</text>
                 <text class="item-remove" data-type="cook" data-id="{{item.id}}" bindtap="onRemoveItem">×</text>
               </view>
@@ -54,7 +58,9 @@
           <view class="items" >
             <block wx:for="{{goList}}" wx:key="id">
               <view class="item">
-                <checkbox checked="{{item.done}}" data-type="go" data-id="{{item.id}}" bindchange="onToggleDone"/>
+                <checkbox-group bindchange="onToggleDone" data-type="go" data-id="{{item.id}}">
+                  <checkbox value="{{item.id}}" checked="{{item.done}}" />
+                </checkbox-group>
                 <text class="item-text {{item.done ? 'done' : ''}}">{{item.text}}</text>
                 <text class="item-remove" data-type="go" data-id="{{item.id}}" bindtap="onRemoveItem">×</text>
               </view>
